@@ -1,18 +1,111 @@
-# React + Vite
+# 🚗 Vehicle Service Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack web application designed to simplify and digitalize vehicle service booking and management.  
+The system enables customers to schedule service appointments online while allowing service centers to manage bookings and service operations efficiently.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📌 Project Overview
 
-## React Compiler
+The Vehicle Service Management System is a web-based platform that allows users to register, log in, add vehicle details, check available service slots, and book vehicle service appointments online.  
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+The application also provides a dedicated admin interface for service centers to manage slots, monitor bookings, and update service status.
 
-Note: This will impact Vite dev & build performances.
+This system aims to reduce customer waiting time, eliminate manual booking processes, and improve service management efficiency.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## ✨ Key Features
+
+✔ User Registration & Login  
+✔ Profile Management with Image Upload  
+✔ Add & Manage Vehicle Details  
+✔ Service Slot Booking System  
+✔ Booking Status Tracking  
+✔ Admin Dashboard  
+✔ Slot Management (Admin)  
+✔ Booking Management (Admin)  
+
+---
+
+## 🛠 Technology Stack
+
+**Frontend:** React (Vite)  
+**Backend:** Node.js, Express.js  
+**Database:** MongoDB Atlas  
+**API Communication:** REST APIs  
+**Tools:** VS Code, Postman, Git, GitHub
+
+---
+
+## 🏗 System Modules
+
+### 👤 User Module
+- Register / Login
+- Add Vehicle Details
+- View Available Slots
+- Book Service Slot
+- Track Booking Status
+- View Booking History
+
+### 🏢 Admin Module
+- Admin Login
+- Manage Service Slots
+- View Customer Bookings
+- Approve / Update Booking Status
+- Monitor Service Requests
+
+---
+
+## 🎯 Objectives
+
+- Provide convenient online vehicle service booking
+- Reduce manual scheduling conflicts
+- Improve customer experience
+- Enhance service center management efficiency
+
+---
+
+## 🚀 Future Enhancements
+
+- Online Payment Integration
+- Email / SMS Notifications
+- Service Cost Estimation
+- Vehicle Service History Reports
+- Mobile Responsive UI Improvements
+
+---
+
+## 📷 Screenshots
+
+*(Add screenshots of your project UI here)*
+
+Example:
+
+![Home Page](screenshots/home.png)
+![User Dashboard](screenshots/dashboard.png)
+![Admin Panel](screenshots/admin.png)
+
+---
+
+## 📄 Project Status
+
+🟢 In Progress  
+
+Core functionalities are implemented, and enhancements are ongoing.
+
+---
+
+## 👨‍💻 Author
+
+**Vasanthu**  
+MCA Student | React & Node.js Developer  
+
+🔗 LinkedIn: [Your LinkedIn URL]  
+💻 GitHub: [Your GitHub URL]
+
+---
+
+## 📜 License
+
+This project is developed for academic and learning purposes.
