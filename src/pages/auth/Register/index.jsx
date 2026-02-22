@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-// import axios from "axios";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import "./index.css";
 
 function Register() {
   const navigate = useNavigate();
-  const { createAccount, user } = useAuth();
+  const [profileImage, setProfileImage] = useState(null);
+  const { user } = useAuth();
+  const [error, setError] = useState("");
   const [form, setForm] = useState({
     name: "",
     email: "",
-    username: "",
+    userName: "",
     password: "",
     phone: "",
     address: "",
@@ -20,13 +22,42 @@ function Register() {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0] || null;
+    console.log("Selected file:", file);
+    setProfileImage(file);
+  };
+  // converting
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
 
-    console.log("Form data to submit:", form);
-    createAccount(form);
-    navigate("/login");
+    try {
+      const formData = new FormData();
+      Object.entries(form).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+
+      if (profileImage) {
+        formData.append("profileImage", profileImage);
+      }
+
+      const register = await axios.post(
+        "http://localhost:8000/api/v1/users/register",
+        formData,
+      );
+      console.log("Registration successful:", register.data);
+      navigate("/login");
+    } catch (error) {
+      const backend = error?.response?.data;
+      console.log("Registration error:", error.response);
+      setError(
+        backend?.message ||
+          "Registration failed. Please try again.",
+      );
+      return;
+    }
   };
 
   return (
@@ -79,14 +110,14 @@ function Register() {
               </div>
 
               <div className="form-field">
-                <label htmlFor="username" className="label">
+                <label htmlFor="userName" className="label">
                   Username{" "}
                   <span style={{ color: "red", fontWeight: "bold" }}>*</span>
                 </label>
                 <input
-                  id="username"
-                  name="username"
-                  value={form.username}
+                  id="userName"
+                  name="userName"
+                  value={form.userName}
                   onChange={handleChange}
                   required
                   autoComplete="username"
@@ -151,13 +182,15 @@ function Register() {
                   id="profileImage"
                   type="file"
                   accept="image/*"
-                  // onChange={handleImageChange}
+                  onChange={handleImageChange}
                 />
               </div>
-
               <button type="submit" className="submit-button">
                 Create Account
               </button>
+              {error !== "" && (
+                <p style={{ color: "red", fontWeight: "bold" }}>{error}</p>
+              )}
             </form>
           </div>
         </div>

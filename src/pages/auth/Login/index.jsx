@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-// import axios from "axios";
+import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { MdEmail } from "react-icons/md";
 import { FaLock } from "react-icons/fa6";
 import useAuth from "../../../hooks/useAuth";
+import cookies from "js-cookie";
 import "./index.css";
 
 function Login() {
   const navigate = useNavigate();
-  const { login,user } = useAuth();
+  const { recordTheUserData, user } = useAuth();
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     password: "",
   });
@@ -29,35 +29,35 @@ function Login() {
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
-    login(formData);
-    const existingUser = user?.whoEntered;
-    console.log(existingUser,"login page user");
-    navigate(`/${existingUser}`);
-  
-    // try {
-    //   const response = await axios.post("/api/login", {
-    //     email: formData.email,
-    //     password: formData.password,
-    //   });
 
-    //   if (
-    //     response.data?.matched === false ||
-    //     response.data?.success === false
-    //   ) {
-    //     setError(response.data?.message || "Invalid email or password.");
-    //     return;
-    //   }
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/v1/users/login",
+        {
+          email: formData.email,
+          password: formData.password,
+        },
+      );
 
-    //   // Save user data to context so the whole app knows who's logged in
-    //   login(response.data.user);
-
-    //   navigate("/");
-    // } catch (err) {
-    //   const message =
-    //     err.response?.data?.message ||
-    //     "Login failed. Please check your credentials and try again.";
-    //   setError(message);
-    // }
+      if (response.data?.matched === true || response.data?.success === true) {
+        console.log(response.data, "login response");
+        recordTheUserData(response.data.data);
+        // Store the access token in cookies with a 7-day expiration
+        cookies.set("vehicleServiceToken", response.data.accessToken, {
+          expires: 7,
+          path: "/",
+        });
+        const path = user?.whoEntered;
+        navigate(`/${path}`); // Navigate to the path based on who entered
+      }
+    } catch (err) {
+      const message =
+        err.response?.data?.message ||
+        "Login failed. Please check your credentials and try again.";
+      setError(message);
+      console.log("Login error:", err.response);
+      return;
+    }
   }
 
   return (

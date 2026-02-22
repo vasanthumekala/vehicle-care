@@ -7,6 +7,7 @@ import Customer from "./pages/customer/index.jsx";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/home/index.jsx";
 import AuthContext from "./context/AuthContext/index.jsx";
+// import axios from "axios";
 
 const pageData = {
   whoEntered: null,
@@ -16,6 +17,7 @@ const pageData = {
 };
 
 function App() {
+  const [userData, setUserData] = useState([]);
   const [user, setUser] = useState(pageData);
 
   useEffect(() => {
@@ -25,21 +27,19 @@ function App() {
     }
   }, []);
 
-  console.log(user, "app page user");
-
-  const login = (userData) => {
-    // setUser(userData);
-    // localStorage.setItem("user", JSON.stringify(userData));
+  const recordTheUserData = (data) => {
+    console.log(user);
+    setUserData((prev) => [...prev, data]);
   };
 
-  const createAccount = (userData) => {
-    const existingUsersData = localStorage.getItem("user");
-    const existingUserData = JSON.parse(existingUsersData);
-    const updatedUserData = { ...existingUserData, currentUser: userData };
-    localStorage.setItem("user", JSON.stringify(updatedUserData));
-    setUser(updatedUserData);
-    console.log(updatedUserData, "create account");
-  };
+  // const createAccount = (userData) => {
+  //   const existingUsersData = localStorage.getItem("user");
+  //   const existingUserData = JSON.parse(existingUsersData);
+  //   const updatedUserData = { ...existingUserData, currentUser: userData };
+  //   localStorage.setItem("user", JSON.stringify(updatedUserData));
+  //   setUser(updatedUserData);
+  //   console.log(updatedUserData, "create account");
+  // };
 
   const whoenteredtopage = (person) => {
     const existingUsersData = localStorage.getItem("user");
@@ -51,12 +51,13 @@ function App() {
 
   const logout = () => {
     setUser(pageData);
+    setUserData([]);
     localStorage.removeItem("user");
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, login, logout, whoenteredtopage, createAccount }}
+      value={{ user, userData, logout, whoenteredtopage, recordTheUserData }}
     >
       <Routes>
         <Route path="/" element={<Home />} />

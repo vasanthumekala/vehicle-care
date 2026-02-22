@@ -1,21 +1,35 @@
 import { useState, useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import cookies from "js-cookie";
 import "./index.css";
 
 export default function Owner() {
   const [ownerData, setOwnerData] = useState();
-  const { user } = useAuth();
+  const { userData } = useAuth();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const savedOwnerData = localStorage.getItem("user");
-  //   if (savedOwnerData) {
-  //     setOwnerData(JSON.parse(savedOwnerData));
-  //   }
-  // }, []);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const jwtToken = cookies.get("vehicleServiceToken");
+        const response = await axios.get("http://localhost:8000/api/v1/users/userDetails",{
+            headers: {
+              Authorization: `Bearer ${jwtToken}`
+            }
+          }
+        );
+        setOwnerData(response.data.data);
+        console.log(response.data, "owner page response");
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
 
-  console.log(user, "owner page user");
+    fetchUserData();
+  }, [userData]);
+
   const handleLogout = () => {
     localStorage.removeItem("user");
     setOwnerData(null);
@@ -34,7 +48,7 @@ export default function Owner() {
         </div>
         </nav>
         <h1>
-          Owner Page{user?.currentUser ? ` as ${user.currentUser.name}` : ""}
+          Owner Page{ownerData?.name ? ` as ${ownerData.name}` : ""}
         </h1>
         <button className="button" onClick={handleLogout}>Logout</button>
       </div>

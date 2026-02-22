@@ -9,6 +9,7 @@
   min-height: 100vh;
   padding: 24px 16px;
 }
+
 .Form-container {
   display: flex;
   flex-direction: column;
@@ -104,4 +105,7 @@
   .Form-container h2 {
     font-size: 1.4rem;
   }
+}
+.captcha{
+  height: 30px;
 }
